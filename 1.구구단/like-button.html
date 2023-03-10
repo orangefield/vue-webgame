@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>좋아요</title>
+    <!-- https://kr.vuejs.org/v2/guide/index.html -->
+    <!-- Vue를 쓸 수 있게 된다 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h2>주제 : data 중심으로 사고하라</h2>
+        <hr/>
+        <!-- " " : data나 methods에 접근할 수 있다, 자바스크립트 코드 작성 가능 -->
+        <!-- if, else : 동등한 형제, 인접해야 함 -->
+        <div v-if="liked">좋아요 눌렀음</div>
+        <button v-else v-on:click="onClickButton">Like</button>
+    </div>
+</body>
+<script>
+    const app = new Vue({ // app : Vue의 인스턴스
+        // el, data, methods : 바꾸지 말 것
+        el: '#root', // root를 통제한다
+        data: { // data : 바뀌는 값; 우리는 data만 관리한다; Vue가 관리하게 하는 변수들
+            liked: false,
+        },
+        methods: {
+            onClickButton() {
+                this.liked = true; // this = data
+            }
+        }
+    });
+</script>
+
+</html>
