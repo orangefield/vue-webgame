@@ -11,14 +11,14 @@
 
 <body>
     <div id="root">
-        <h2>주제 : 바뀌는 부분을 찾아라, 양방향 바인딩</h2>
+        <h2>주제 : 바뀌는 부분을 찾아라, 양방향 바인딩, 포커스를 인풋태그에 자동으로 가게 하는 것은 data에서 할 일이 아니다(ref)</h2>
         <hr />
         <!-- data에 접근 : 1.v-~:" " 2.{{}} -->
         <!-- {{}} 안에도 자바스크립트식을 넣을 수 있다 ex. {{first + second}}-->
         <div>{{first}} 곱하기 {{second}} 는?</div>
         <form v-on:submit="onSubmitForm">
             <!-- 1. input태그에서 바뀌는 value를 data에서도 받고 싶다 : v-model -->
-            <input type="number" v-model="value">
+            <input type="number" ref="answer" v-model="value">
             <button type="submit">입력</button> <!-- form태그는 버튼을 누를 때마다 새로고침을 한다 -->
         </form>
         <div>{{result}}</div>
@@ -45,6 +45,9 @@
                         this.fisrt = Math.ceil(Math.random() * 9);
                         this.second = Math.ceil(Math.random() * 9);
                         this.value = ''; // 비워주기
+
+                        // this.$refs.answer로 접근해서 포커스해라
+                        this.$refs.answer.focus(); // input태그에 직접 접근, 어쩔 수 없는 경우를 제외하고는 남용X
                     } else {
                         this.result = '땡';
                         this.value = ''; // 비워주기
