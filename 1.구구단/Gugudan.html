@@ -16,12 +16,12 @@
         <!-- data에 접근 : 1.v-~:" " 2.{{}} -->
         <!-- {{}} 안에도 자바스크립트식을 넣을 수 있다 ex. {{first + second}}-->
         <div>{{first}} 곱하기 {{second}} 는?</div>
-        <form>
+        <form v-on:submit="onSubmitForm">
             <!-- 1. input태그에서 바뀌는 value를 data에서도 받고 싶다 : v-model -->
             <input type="number" v-model="value">
-            <button>입력</button> <!-- form태그는 버튼을 누를 때마다 새로고침을 한다 -->
-            <div>{{value}}</div> <!-- 3. data.value에서 갖고 온 값 -->
+            <button type="submit">입력</button> <!-- form태그는 버튼을 누를 때마다 새로고침을 한다 -->
         </form>
+        <div>{{result}}</div>
     </div>
     <script>
         const app = new Vue({
@@ -33,7 +33,24 @@
                 value: '', // 2. v-model로 연결됨
                 result: '',
             },
-            methods: {},
+            methods: {
+                onSubmitForm(e) {
+                    e.preventDefault(); // form태그가 기본적으로 하는 새로고침을 막는다
+
+                    // console.log(this.first, this.second, this.value); // this.value가 String구나
+                    if (this.first * this.second === parseInt(this.value)) {
+                        this.result = '정답';
+
+                        // 화면을 새로고침 하는게 아니다! 죽을 때까지 이 화면을 사용해서 새로운 문제 출제
+                        this.fisrt = Math.ceil(Math.random() * 9);
+                        this.second = Math.ceil(Math.random() * 9);
+                        this.value = ''; // 비워주기
+                    } else {
+                        this.result = '땡';
+                        this.value = ''; // 비워주기
+                    }
+                },
+            },
         });
     </script>
 </body>
