@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <div>{{word}}</div>
+        <form v-on:submit="onSubmitForm">
+            <input type="text" ref="answer" v-model="value"> <!-- ref : 이름 지어주기 -->
+            <button type="submit">입력!</button>
+        </form>
+        <div>{{result}}</div>
+    </div>
+    <script>
+        const app = new Vue({ // 'Vue에게 태그 통제권을 넘기다'
+            el: '#root',
+            data: { // '태그를 먼저 작성하고, 바뀌는 것을 데이터로 지정한다'
+                word: '제로초',
+                value: '',
+                result: '',
+            },
+            methods: {
+                onSubmitForm(e) {
+                    e.preventDefault();
+
+                    if (this.word[this.word.length - 1] === this.value[0]) {
+                        this.result = '딩동댕';
+
+                        this.word = this.value; // 끝말잇기 계속
+                        this.value = '';    // 비워주기
+                        this.$refs.answer.focus();  // 포커스
+                    } else {
+                        this.result = '땡';
+
+                        this.value = '';    // 비워주기
+                        this.$refs.answer.focus();  // 포커스
+                    }
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>
