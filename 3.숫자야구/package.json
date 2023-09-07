@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "vue": "^3.3.4"
-  },
+  }, 
   "devDependencies": {
     "vue-loader": "^17.2.2",
     "vue-template-compiler": "^2.7.14",
