@@ -1,9 +1,10 @@
 // webpack.config.js 파일을 직접 생성
+// require : js의 모듈 시스템
 const { VueLoaderPlugin } = require('vue-loader');   // !vue-loader was used without the corresponding plugin.
 const path = require('path');   // !The output directory as **absolute path**
 
 // entry, module, plugins, output 중요
-module.exports = {
+module.exports = {  // node의 모듈 시스템
     mode: 'development',    // 배포 : 'production'
     devtool: 'eval',        // 배포시에는 'hidden-source-map'
     resolve: {
