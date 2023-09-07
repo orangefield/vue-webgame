@@ -10,12 +10,15 @@
 
 <body>
     <div id="root">
-        <word-relay></word-relay>
-        <word-relay></word-relay>
+        <!-- 0. HTML : 케밥케이스 -->
+        <word-relay start-word = "나무"></word-relay>    <!-- 1. 컴포넌트를 쓰되, 각각 다른 단어로 끝말잇기를 시작하고 싶다 -->
+        <word-relay start-word = "고기"></word-relay>
+        <word-relay start-word = "칫솔"></word-relay>
     </div>
     <!-- 컴포넌트를 만드는 스크립트를 최상단에 작성 -->
     <script>
-        Vue.component('word-relay', {   // 전역 컴포넌트
+        // 0. 자바스크립트 : 카멜케이스
+        Vue.component('wordRelay', {   // 전역 컴포넌트
             // template : 형제 태그를 하나의 부모 태그로 묶어줘야 한다
             template: `
                 <div> 
@@ -27,11 +30,13 @@
                     <div>{{result}}</div>
                 </div>
             `,
+            props: ['startWord'],   // 2. start-word를 props로 받겠다
             data() {
+                console.log(this);
                 // 컴포넌트는 데이터를 함수 형태로
                 // 데이터는 각각 독립적
                 return {
-                    word: '제로초',
+                    word: this.startWord,   // 3. props에 접근
                     value: '',
                     result: '',
                 };
