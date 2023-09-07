@@ -10,17 +10,21 @@
 
 <body>
     <div id="root">
-        <div>{{word}}</div>
-        <form v-on:submit="onSubmitForm">
-            <input type="text" ref="answer" v-model="value"> <!-- ref : 이름 지어주기 -->
-            <button type="submit">입력!</button>
-        </form>
-        <div>{{result}}</div>
+        <word-relay />
+        <word-relay />
     </div>
     <script>
-        const app = new Vue({ // 'Vue에게 태그 통제권을 넘기다'
-            el: '#root',
-            data: { // '태그를 먼저 작성하고, 바뀌는 것을 데이터로 지정한다'
+        Vue.component('word-relay', {
+            // template : `` 백틱
+            template: ` 
+                <div>{{word}}</div>
+                    <form v-on:submit="onSubmitForm">
+                        <input type="text" ref="answer" v-model="value">
+                        <button type="submit">입력!</button>
+                    </form>
+                <div>{{result}}</div>
+            `,
+            data: {
                 word: '제로초',
                 value: '',
                 result: '',
@@ -43,6 +47,11 @@
                     }
                 },
             },
+        })
+    </script>
+    <script>
+        const app = new Vue({ // new Vue = Vue instance
+            el: '#root',
         });
     </script>
 </body>
