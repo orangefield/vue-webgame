@@ -10,24 +10,31 @@
 
 <body>
     <div id="root">
-        <word-relay />
-        <word-relay />
+        <word-relay></word-relay>
+        <word-relay></word-relay>
     </div>
+    <!-- 컴포넌트를 만드는 스크립트를 최상단에 작성 -->
     <script>
-        Vue.component('word-relay', {
-            // template : `` 백틱
-            template: ` 
-                <div>{{word}}</div>
-                    <form v-on:submit="onSubmitForm">
-                        <input type="text" ref="answer" v-model="value">
-                        <button type="submit">입력!</button>
-                    </form>
-                <div>{{result}}</div>
+        Vue.component('word-relay', {   // 전역 컴포넌트
+            // template : 형제 태그를 하나의 부모 태그로 묶어줘야 한다
+            template: `
+                <div> 
+                    <div>{{word}}</div>
+                        <form v-on:submit="onSubmitForm">
+                            <input type="text" ref="answer" v-model="value">
+                            <button type="submit">입력!</button>
+                        </form>
+                    <div>{{result}}</div>
+                </div>
             `,
-            data: {
-                word: '제로초',
-                value: '',
-                result: '',
+            data() {
+                // 컴포넌트는 데이터를 함수 형태로
+                // 데이터는 각각 독립적
+                return {
+                    word: '제로초',
+                    value: '',
+                    result: '',
+                };
             },
             methods: {
                 onSubmitForm(e) {
