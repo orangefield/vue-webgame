@@ -5,13 +5,19 @@
         <!-- :class로 쓸 수도 있다 -->
         <div id="screen" v-bind:class="state" @click="onClickScreen">{{ message }}</div>
         <div>
-            <div>평균 시간 : {{ }}</div>
+            <!-- reduce() : 배열의 합 -->
+            <!-- || 0 : 기본값이 0 -->
+            <div>평균 시간 : {{ result.reduce((a, c) => a + c, 0) / result.length || 0}}ms</div> 
             <button @click="onReset">리셋</button>
         </div>
     </div>
 </template>
 
 <script>
+let startTime = 0;
+let endTime = 0;
+let timeout = null;
+
 export default {
     data() {
         return {
@@ -21,14 +27,32 @@ export default {
         }
     },
     methods: {
-        onReset() { },
+        onReset() {
+            this.result = []; // 초기화
+        },
         onClickScreen() {
             if (this.state === 'waiting') {
                 this.state = 'ready';
+                this.message = '노란색이 되면 클릭하세요';
+
+                timeout = setTimeout(() => {
+                    this.state = 'now';
+                    this.message = '지금 클릭!';
+
+                    startTime = new Date();
+                }, Math.floor(Math.random() * 1000) + 2000); // 2~3초
             } else if (this.state === 'ready') {
-                this.state = 'now';
-            } else if (this.state === 'now') {
+                clearTimeout(timeout);
+                
                 this.state = 'waiting';
+                this.message = '너무 성급하시군요! 노란색이 된 후에 클릭하세요';
+            } else if (this.state === 'now') {
+                endTime = new Date();
+                
+                this.state = 'waiting';
+                this.message = '클릭해서 시작하세요';
+                
+                this.result.push(endTime - startTime);
             }
         },
     }
@@ -55,4 +79,5 @@ export default {
 
  #screen.now {
      background-color: gold;
- }</style>
+ }
+</style>
