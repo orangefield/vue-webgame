@@ -36,3 +36,20 @@
 # webpack, webpack-cli : 배포할 때 쓰는 보조도구로 자바스크립트를 합쳐준다
 # .vue는 자바스크립트 파일이 아니므로 웹팩 로더 vue-loader를 사용해야 한다
 ```
+
+4. 반응속도체크
+```
+4-1 .gitignore, npm i, webpack --watch
+4-2 v-bind, npm i vue-style-loader -D, npm i css-loader -D, rules
+4-3 npm i -D webpack-dev-server, npm run dev
+4-4 setTimeout, clearTimeout, reduce
+4-5 computed, v-show, v-if, template 태그
+
+# 프로젝트 폴더에서 npm i : package.json에 적힌 것들이 자동으로 설치된다
+# 파일을 저장하면 자동으로 빌드할 수 있도록 웹팩이 지켜보게 한다
+# 로더를 추가하면 rules에도 추가
+# 자동으로 빌드되면서 html 파일을 새로고침하지 않아도 핫리로딩 되게 수정
+# webpack-dev-server@4 부터는 devServer 추가가 필요함
+# devMiddleware (X), static (O) : http://localhost:8080/dist/app.js 까지는 가지만 html 파일 Not Found
+# devMiddleware (O), static (X) : http://localhost:8080/ 까지만 감
+```
