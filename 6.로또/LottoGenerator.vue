@@ -55,7 +55,7 @@ export default {
             this.bonus = null;
             this.redo = false;
 
-            this.showBalls();
+            // this.showBalls();
         },
         showBalls() {
             for (let i = 0; i < this.winNumbers.length - 1; i++) { // let을 쓰면 클로져 문제가 생기지 않는다, 일단 6개만 공개
@@ -77,8 +77,15 @@ export default {
             clearTimeout(t);
         });
     },
-    watch: {
-
+    watch: { // 비동기로 변경됨
+        bonus(value, oldValue){ // 감시하고자 하는 데이터의 이름을 함수명으로
+            console.log(value, oldValue); // winBalls 같은 객체나 배열은 참조 관계라 이전값, 현재값이 같게 나올 수 있다. 
+            // 원시값을 watch 하는 것이 좀 더 정확할 것. 더 좋은건 watch를 최대한 쓰지 말자. watch는 최후의 수단
+            if(value === null) {
+                // console.log(this.winBalls.length)
+                this.showBalls();
+            }
+        }
     },
 }; 
 </script>
