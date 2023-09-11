@@ -2,16 +2,17 @@
     <div>
         <div>당첨 숫자</div>
         <div id="결과창">
-            <lotto-ball v-for="ball in winBalls" :key="ball"></lotto-ball>
+            <!-- props도 v-bind 가능 -->
+            <lotto-ball v-for="ball in winBalls" :key="ball" :number="ball"></lotto-ball>
         </div>
         <div>보너스</div>
-        <lotto-ball v-if="bonus"></lotto-ball>
-        <button v-if="redo">한 번 더!</button>
+        <lotto-ball v-if="bonus" :number="bonus"></lotto-ball>
+        <button v-if="redo" @click="onClickRedo">한 번 더!</button>
     </div>
 </template>
 
 <script>
-import LottoBall from './LottoBall'; 
+import LottoBall from './LottoBall';
 
 function getWinNumbers() {
     console.log('getWinNumbers');
@@ -30,6 +31,8 @@ function getWinNumbers() {
     return [...winNumbers, bonusNumber];
 }
 
+const timeouts = []; // clearTimeout 하기 위한 변수
+
 export default {
     components: { // 자식 컴포넌트들을 등록하는 용도
         'lotto-ball': LottoBall, // '등록(template에서 쓸 이름과 같아야 함)': 객체(파스칼케이스로 쓰면 그냥 객체만 적어도 된다)
@@ -46,13 +49,33 @@ export default {
 
     },
     methods: {
+        onClickRedo() {
+            this.winNumbers = getWinNumbers();
+            this.winBalls = [];
+            this.bonus = null;
+            this.redo = false;
 
+            this.showBalls();
+        },
+        showBalls() {
+            for (let i = 0; i < this.winNumbers.length - 1; i++) { // let을 쓰면 클로져 문제가 생기지 않는다, 일단 6개만 공개
+                timeouts[i] = setTimeout(() => {
+                    this.winBalls.push(this.winNumbers[i]);
+                }, (i + 1) * 1000);
+            }
+            timeouts[6] = setTimeout(() => {
+                this.bonus = this.winNumbers[6]; // 마지막 숫자
+                this.redo = true; // 버튼 활성화
+            }, 8000);
+        },
     },
-    mounted() {
-
+    mounted() { // 화면에 렌더링 되자마자
+        this.showBalls();
     },
     beforeDestroy() {
-
+        timeouts.forEach((t)=>{ // timeouts가 배열
+            clearTimeout(t);
+        });
     },
     watch: {
 
