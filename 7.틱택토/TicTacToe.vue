@@ -1,7 +1,9 @@
 <template>
     <div>
-       <table-component :table-data="tableData" :turn="turn"/>
-       <div>{{ turn }} 님의 턴입니다.</div>
+        <div>{{ turn }} 님의 턴입니다.</div>
+        <table-component :table-data="tableData" :turn="turn" />
+        <br />
+        <div v-if="winner">{{ winner }} 님의 승리!</div>
     </div>
 </template>
 
@@ -9,21 +11,22 @@
 import TableComponent from './TableComponent';
 
 export default {
-    components: { 
+    components: {
         TableComponent,
     },
     data() {
         return {
-           tableData: [ // 2차원 배열 : 배열 안에 배열
-            ['', '', ''], 
-            ['', '', ''], 
-            ['', '', ''], 
-           ],
-           turn: 'O',
+            tableData: [ // 2차원 배열 : 배열 안에 배열
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', ''],
+            ],
+            turn: 'O',
+            winner: '',
         };
     },
     methods: {
-       
+
     },
 }; 
 </script>
@@ -32,6 +35,7 @@ export default {
 table {
     border-collapse: collapse;
 }
+
 td {
     border: 1px solid black;
     width: 40px;
