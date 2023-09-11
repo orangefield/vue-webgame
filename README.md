@@ -73,3 +73,15 @@
 # setTimeout, setInterval 등을 사용했다면 컴포넌트가 사라진 이후에도 계속 실행되기 때문에 beforeDestroy에서 clearTimeout, clearInterval을 해줘야  메모리 누수가 발생하지 않는다
 ```
 
+6. 로또
+```
+6-1. 세팅
+6-2. 자식 컴포넌트 등록, props
+6-3. timeouts
+6-4. watch
+
+# 자식 컴포넌트를 등록하기 위해서는 import 하고, components에 등록한다
+# babel : 새로운 문법을 옛 문법으로 바꿔준다
+# setTimeout을 timeouts에 저장해주면 clearTimeout 때 쓸 수 있다
+# computed : 새로운 값을 리턴한다
+# watch : 어떤 값이 바뀌었는지 아닌지 감시. 특정 동작을 수행한다. 최대한 사용X
