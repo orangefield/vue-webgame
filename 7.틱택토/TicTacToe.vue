@@ -1,6 +1,7 @@
 <template>
     <div>
-       <table-component :table-data="tableData" />
+       <table-component :table-data="tableData" :turn="turn"/>
+       <div>{{ turn }} 님의 턴입니다.</div>
     </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
             ['', '', ''], 
             ['', '', ''], 
            ],
+           turn: 'O',
         };
     },
     methods: {
@@ -26,4 +28,14 @@ export default {
 }; 
 </script>
 
-<style></style>
+<style>
+table {
+    border-collapse: collapse;
+}
+td {
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+</style>
