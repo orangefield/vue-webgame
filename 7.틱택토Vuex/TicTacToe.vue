@@ -14,20 +14,14 @@ export default {
     components: {
         TableComponent,
     },
-    data() {
-        return {
-            tableData: [ // 2차원 배열 : 배열 안에 배열
-                ['', '', ''],
-                ['', '', ''],
-                ['', '', ''],
-            ],
-            turn: 'O',
-            winner: '',
-        };
-    },
-    methods: {
-
-    },
+    computed: {
+        winner() {
+            return this.$store.state.winner;
+        },
+        turn() {
+            return this.$store.state.turn;
+        },
+    }
 }; 
 </script>
 
