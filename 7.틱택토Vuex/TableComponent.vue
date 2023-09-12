@@ -1,6 +1,6 @@
 <template>
     <table>
-        <tr-component v-for="(rowData, index) in tableData" :key="index" :row-index="index"></tr-component>
+        <slot></slot> <!-- 부모가 제공한 슬롯 컨텐츠가 렌더링되어야 하는 위치를 나타내는 슬롯 아울렛, 기본값 설정 가능(공식문서) -->
     </table>
 </template>
 
@@ -8,16 +8,6 @@
 import TrComponent from './TrComponent';
 
 export default {
-    components: {
-        TrComponent,
-    },
-    computed: {
-        tableData() {
-            return this.$store.state.tableData;
-        },
-        turnMessage() { // ...mapGetters 가능
-            return this.$store.getters.turnMessage;
-        }
-    },
-}
+    
+};
 </script>
