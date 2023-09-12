@@ -100,3 +100,47 @@
 # this.$root : 최상위
 # this.$parent : 해당 컴포넌트의 부모 컴포넌트
 ```
+
+7. 틱택토Vuex
+```
+7-5. Vuex, npm i vuex, store.js : 데이터를 중앙에서 통제할 수 있다
+
+import { createApp } from 'vue';  
+import TicTacToe from './TicTacToe';
+import store from './store';
+
+createApp(TicTacToe)
+    .use(store)
+    .mount('#root');
+
+7-6. $store.state, $store.commit
+7-7. mapState
+7-8. devtools 분석 및 수정
+7-9. slot
+
+# ...mapState(['winner', 'turn'])   // 기본형
+# 
+...mapState({
+    winner: state => state.winner,
+    turnState: 'turn',  // 이름을 바꿀 수도 있다
+})
+# 
+data() {
+    return {
+        num: 1,
+    }
+},
+computed: {
+    ...mapState({
+        winner(state){
+            return state.winner + this.num;  // 스토어의 데이터에 컴포넌트의 데이터를 쿵짝쿵짝 할 수 있다
+        }
+    })
+}
+# 화살표함수는 this를 못쓰지만 일반함수는 this를 쓸 수 있다 
+# https://ko.vuejs.org/guide/components/slots.html
+# 슬롯 : 화면에 표시될 테이블컴포넌트가 아닌 부모 컴포넌트의 데이터, 메서드, 컴포넌트에 접근해서 쓸 수 있다(IoC, DI의 개념)
+# v-for의 :key 렌더링할 때 다른지 아닌지(화면을 다시 그려야할지 아닐지) 판단하는 기준이 된다
+# 반복문에서 배열이 추가되는 경우, 중간에 수정되는 경우 : 인덱스가 변경되지 않거나 마지막 위치에 추가되기만 하기 때문에 변경되는 부분만 다시 그리면 된다
+# 배열 중간에서 삭제되는 경우 : 삭제 되는 위치부터 끝까지 다 다시 그려야 한다. (인덱스가 변경되기 때문)
+```
