@@ -80,11 +80,31 @@ export default createStore({
             state.timer = 0;
             state.halted = false;
         },
-        [OPEN_CELL](state) { },
+        [OPEN_CELL](state, { row, cell }) {
+            state.tableData[row][cell] = CODE.OPENED;
+        },
         [CLICK_MINE](state) { },
-        [FLAG_CELL](state) { },
-        [QUESTION_CELL](state) { },
-        [NORMALIZE_CELL](state) { },
+        [FLAG_CELL](state, { row, cell }) {
+            if (state.tableData[row][cell] === CODE.MINE) {
+                state.tableData[row][cell] = CODE.FLAG_MINE;
+            } else {
+                state.tableData[row][cell] = CODE.FLAG;
+            }
+        },
+        [QUESTION_CELL](state, { row, cell }) {
+            if (state.tableData[row][cell] === CODE.FLAG_MINE) {
+                state.tableData[row][cell] = CODE.QUESTION_MINE;
+            } else {
+                state.tableData[row][cell] = CODE.QUESTION;
+            }
+        },
+        [NORMALIZE_CELL](state, { row, cell }) {
+            if (state.tableData[row][cell] === CODE.QUESTION_MINE) {
+                state.tableData[row][cell] = CODE.MINE;
+            } else {
+                state.tableData[row][cell] = CODE.NORMAL;
+            }
+        },
         [INCREMENT_TIMER](state) {
             state.timer += 1;
         },
