@@ -21,8 +21,10 @@ export default createStore({
         turn: 'O',
         winner: '',
     },
-    getters: { // vue의 computed와 비슷
-
+    getters: { // vue의 computed와 비슷(state로 추가적인 작업을 할 때, 캐싱)
+        turnMessage(state){
+            return this.turn + ' 님이 승리하셨습니다.'
+        }
     },
     mutations: { // state를 수정할 때 사용(동기적), 함수명은 대문자로 지은 다음에 변수(object dynamic property)로 빼줬다
         [SET_WINNER](state, winner){

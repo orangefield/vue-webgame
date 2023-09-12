@@ -1,7 +1,6 @@
 <template>
     <table>
-        <tr-component v-for="(rowData, index) in tableData" :key="index"
-            :row-index="index"></tr-component>
+        <tr-component v-for="(rowData, index) in tableData" :key="index" :row-index="index"></tr-component>
     </table>
 </template>
 
@@ -16,6 +15,9 @@ export default {
         tableData() {
             return this.$store.state.tableData;
         },
+        turnMessage() { // ...mapGetters 가능
+            return this.$store.getters.turnMessage;
+        }
     },
 }
 </script>
