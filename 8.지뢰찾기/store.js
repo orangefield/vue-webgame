@@ -81,9 +81,28 @@ export default createStore({
             state.halted = false;
         },
         [OPEN_CELL](state, { row, cell }) {
-            function checkAround() { // 주변 8칸 검사
+            const checked = []; // 주변을 검사하면서 한 번 검사한 칸을 넣는 곳
+
+            function checkAround(row, cell) { // 주변 8칸 검사
+                // Undefined 검사
+                const checkRowOrCellIsUndefined = row < 0 || row >= state.tableData.length || cell < 0 || cell >= state.tableData[0].length;
+                if (checkRowOrCellIsUndefined) {
+                    return;
+                }
+
+                // 열렸거나, 지뢰, 깃발, 물음표는 검사하지 않기
+                if ([CODE.OPENED, CODE.FLAG, CODE.FLAG_MINE, CODE.QUESTION_MINE, CODE.QUESTION].includes(state.tableData[row][cell])) {
+                    return;
+                }
+
+                // 한 번 연 칸은 검사하지 않기
+                if (checked.includes(row + '/' + cell)) {
+                    return;
+                } else {
+                    checked.push(row + '/' + cell);
+                }
+
                 let around = [];
-                
                 if (state.tableData[row - 1]) {
                     around = around.concat([
                         state.tableData[row - 1][cell - 1],
@@ -103,14 +122,32 @@ export default createStore({
                     ]);
                 }
 
-                const counted = around.filter(function (v) { 
-                    return [CODE.MINE, CODE.FLAG_MINE, CODE.QUESTION_MINE ].includes(v);
+                const counted = around.filter(function (v) {
+                    return [CODE.MINE, CODE.FLAG_MINE, CODE.QUESTION_MINE].includes(v);
                 });
-                return counted.length;
+                if (counted.length === 0 && row > -1) { // 주변 칸에 지뢰가 하나도 없으면 
+                    const near = [];
+                    if (row - 1 > -1) {
+                        near.push([row - 1, cell - 1]);
+                        near.push([row - 1, cell]);
+                        near.push([row - 1, cell + 1]);
+                    }
+                    near.push([row, cell - 1]);
+                    near.push([row, cell + 1]);
+                    if (row + 1 < state.tableData.length) {
+                        near.push([row + 1, cell - 1]);
+                        near.push([row + 1, cell]);
+                        near.push([row + 1, cell + 1]);
+                    }
+                    near.forEach((n) => {
+                        if (state.tableData[n[0]][n[1]] !== CODE.OPENED) {
+                            checkAround(n[0], n[1]);
+                        }
+                    });
+                }
+                state.tableData[row][cell] = counted.length;
             }
-            const count = checkAround();
-
-            state.tableData[row][cell] = count;
+            checkAround(row, cell); // 제일 처음 재귀를 시작하는 부분(checkAround를 최초로 호출하는 부분)
         },
         [CLICK_MINE](state, { row, cell }) {
             state.halted = true;
