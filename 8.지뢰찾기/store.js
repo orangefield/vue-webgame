@@ -65,6 +65,7 @@ export default createStore({
         timer: 0,
         halted: true, // 중단된
         result: '',
+        openedCount: 0,
     },
     getters: {
 
@@ -79,8 +80,11 @@ export default createStore({
             state.tableData = plantMine(row, cell, mine);
             state.timer = 0;
             state.halted = false;
+            state.openedCount = 0; // 얘가 row*cell-mine과 같아지면 승리
+            state.result = '';
         },
         [OPEN_CELL](state, { row, cell }) {
+            let openedCount = 0; // 연 칸 갯수
             const checked = []; // 주변을 검사하면서 한 번 검사한 칸을 넣는 곳
 
             function checkAround(row, cell) { // 주변 8칸 검사
@@ -145,9 +149,24 @@ export default createStore({
                         }
                     });
                 }
+                if (state.tableData[row][cell] === CODE.NORMAL) {
+                    openedCount += 1;
+                }
                 state.tableData[row][cell] = counted.length;
             }
             checkAround(row, cell); // 제일 처음 재귀를 시작하는 부분(checkAround를 최초로 호출하는 부분)
+            let halted = false;
+            let result;
+
+            if (state.data.row * state.data.cell - state.data.mine === state.openedCount + openedCount) {// state에 쌓인 것 + 방금 마지막으로 연 칸
+                halted = true;
+                result = `${state.timer} 초만에 승리하셨습니다.`;
+            }
+            // 최종 데이터 vuex store에 저장
+            state.openedCount += openedCount;
+            state.halted = halted;
+            state.result = result;
+
         },
         [CLICK_MINE](state, { row, cell }) {
             state.halted = true;
